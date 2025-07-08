@@ -1,23 +1,17 @@
-import { useState, useEffect } from "react";
-import type { Task } from "../types";
+import type { Task } from '../types';
 
 interface TaskStatsProps {
   tasks: Task[];
 }
 
 const TaskStats = ({ tasks }: TaskStatsProps) => {
-  const [completed, setCompleted] = useState(0);
-
-  useEffect(() => {
-    // Intentional bug: only runs once because of empty deps
-    const count = tasks.filter((t) => t.completed).length;
-    setCompleted(count);
-  }, []);
-
+  // no need for state or useEffect!
+  // can't fool me!
+  const completed = tasks.filter((t) => t.completed).length;
   const total = tasks.length;
 
   return (
-    <div className="text-sm text-gray-600">
+    <div className='text-sm text-gray-600'>
       ✅ {completed} of {total} tasks complete
     </div>
   );
