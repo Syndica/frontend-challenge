@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import TaskList from "./components/TaskList";
 import TaskInput from "./components/TaskInput";
 import TaskStats from "./components/TaskStats";
-import { fetchTasks, addTask, toggleTask } from "./lib/fakeApi";
+import { fetchTasks, addTask, toggleTask, removeTask } from "./lib/fakeApi";
 import type { Task } from "./types";
 
 const App = () => {
@@ -11,7 +11,7 @@ const App = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log("Fetching data...");
+    // console.log("Fetching data...");
     fetchTasks()
       .then((data) => {
         setTasks(data);
@@ -21,28 +21,33 @@ const App = () => {
         setError("Failed to load tasks");
         setLoading(false);
       });
-  });
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log("Task count:", tasks.length);
+      // console.log("Task count:", tasks.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [tasks]);
 
   const handleAdd = async (text: string) => {
     const newTask = await addTask(text);
-    setTasks([newTask]);
+    // setTasks([newTask]);
+    setTasks((currentTasks) => [...currentTasks, newTask]);
   };
 
   const handleRemove = async (id: string) => {
+    console.log("Deleting");
     console.log("id: ", id);
+    const newTasks = await removeTask(id);
+
+    setTasks(newTasks);
   };
 
   const handleToggle = (id: string) => {
     toggleTask(id).then((toggledTask) => {
       setTasks((currentTasks) =>
-        currentTasks.map((t) => (t.id === toggledTask.id ? toggledTask : t)),
+        currentTasks.map((t) => (t.id === toggledTask.id ? toggledTask : t))
       );
     });
   };
@@ -62,7 +67,7 @@ const App = () => {
       </div>
 
       <TaskInput onAdd={handleAdd} />
-      <TaskList tasks={tasks} onToggle={handleToggle} />
+      <TaskList tasks={tasks} onToggle={handleToggle} onDelete={handleRemove} />
       <TaskStats tasks={tasks} />
     </main>
   );
