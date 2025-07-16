@@ -36,7 +36,7 @@ const TaskList = ({ tasks, onToggle, onRemove }: TaskListProps) => {
 
           <button
             onClick={() => onRemove(task.id)}
-            className='ml-auto px-2 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600 transition'
+            className='cursor-pointer ml-auto px-2 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600 transition'
           >
             Delete
           </button>
