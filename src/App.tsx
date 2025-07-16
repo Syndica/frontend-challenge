@@ -1,4 +1,7 @@
 import { useEffect } from 'react';
+import AppWrapper from './components/AppWrapper';
+import Error from './components/Error';
+import Loading from './components/Loading';
 import TaskList from './components/TaskList';
 import TaskInput from './components/TaskInput';
 import TaskStats from './components/TaskStats';
@@ -23,17 +26,15 @@ const App = () => {
     return () => clearInterval(interval);
   }, []);
 
-  if (loading) return <div className='p-4'>Loading...</div>;
-  if (error) return <div className='p-4 text-red-600'>{error}</div>;
+  if (loading) return <Loading />;
+  if (error) return <Error message={error} />;
 
   return (
-    <main className='max-w-xl mx-auto p-6 bg-gray-50 min-h-screen'>
-      <h1 className='text-2xl font-bold mb-4'>Syndica Todo App</h1>
-
+    <AppWrapper>
       <TaskInput onAdd={addTask} />
       <TaskList tasks={tasks} onToggle={toggleTask} onRemove={removeTask} />
       <TaskStats tasks={tasks} />
-    </main>
+    </AppWrapper>
   );
 };
 

@@ -1,12 +1,12 @@
-import type { Task } from "../types";
+import type { Task } from '../types';
 
 let tasks: Task[] = [
-  { id: "1", text: "Fix the bug", completed: false },
-  { id: "2", text: "Deploy to staging", completed: true },
+  { id: '1', text: 'Fix the bug', completed: false },
+  { id: '2', text: 'Deploy to staging', completed: true },
 ];
 
 export const fetchTasks = (): Promise<Task[]> =>
-  new Promise((resolve) => setTimeout(() => resolve([...tasks]), 500));
+  new Promise((resolve) => setTimeout(() => resolve([...tasks]), 5000));
 
 export const addTask = (text: string): Promise<Task> =>
   new Promise((resolve) => {

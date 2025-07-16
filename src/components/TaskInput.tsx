@@ -18,8 +18,8 @@ const TaskInput = ({ onAdd }: TaskInputProps) => {
     if (trimmed) {
       onAdd(trimmed);
       setText('');
-      if (inputRef.current) inputRef.current.focus();
     }
+    if (inputRef.current) inputRef.current.focus();
   };
 
   return (
