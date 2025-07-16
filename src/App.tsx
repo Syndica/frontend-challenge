@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import TaskList from "./components/TaskList";
 import TaskInput from "./components/TaskInput";
 import TaskStats from "./components/TaskStats";
-import { fetchTasks, addTask, toggleTask } from "./lib/fakeApi";
+import { fetchTasks, addTask, toggleTask, removeTask } from "./lib/fakeApi";
 import type { Task } from "./types";
 
 const App = () => {
@@ -21,22 +21,27 @@ const App = () => {
         setError("Failed to load tasks");
         setLoading(false);
       });
-  });
+  },[]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       console.log("Task count:", tasks.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [tasks]);
 
   const handleAdd = async (text: string) => {
     const newTask = await addTask(text);
-    setTasks([newTask]);
+    let allTasks = [...tasks];
+    allTasks.push(newTask)
+    setTasks(allTasks);
   };
 
   const handleRemove = async (id: string) => {
     console.log("id: ", id);
+    // Used a different function for this (deleteTaskFunc);
+    const removeResponse = await removeTask(id);
+    setTasks(removeResponse);
   };
 
   const handleToggle = (id: string) => {
@@ -62,7 +67,7 @@ const App = () => {
       </div>
 
       <TaskInput onAdd={handleAdd} />
-      <TaskList tasks={tasks} onToggle={handleToggle} />
+      <TaskList tasks={tasks} onToggle={handleToggle} deleteTask={handleRemove}/>
       <TaskStats tasks={tasks} />
     </main>
   );
