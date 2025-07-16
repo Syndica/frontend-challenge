@@ -39,7 +39,6 @@ const App = () => {
 
   const handleRemove = async (id: string) => {
     console.log("id: ", id);
-    // Used a different function for this (deleteTaskFunc);
     const removeResponse = await removeTask(id);
     setTasks(removeResponse);
   };
