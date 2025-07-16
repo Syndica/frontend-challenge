@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import type { Task } from '../types';
 
 interface TaskListProps {
@@ -7,16 +8,23 @@ interface TaskListProps {
 }
 
 const TaskList = ({ tasks, onToggle, onRemove }: TaskListProps) => {
+  const taskCountOnLoadRef = useRef(tasks.length);
+
   if (tasks.length === 0) {
     return <p className='text-gray-500 italic mb-3'>No tasks found.</p>;
   }
 
   return (
     <ul className='space-y-2 mb-4'>
-      {tasks.map((task) => (
+      {tasks.map((task, index) => (
         <li
-          key={task.id}
-          className='flex justify-between items-center gap-2 p-2 border rounded shadow-sm bg-white hover:bg-gray-50 transition'
+          key={`task-key-${index}`}
+          style={
+            {
+              '--index': `${index < taskCountOnLoadRef.current ? index : 0}`,
+            } as React.CSSProperties
+          }
+          className='animate-in flex justify-between items-center gap-2 p-2 border rounded shadow-sm bg-white hover:bg-gray-50 transition'
         >
           <label
             htmlFor={task.id}
