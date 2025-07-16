@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 interface TaskInputProps {
   onAdd: (text: string) => void;
@@ -6,6 +6,11 @@ interface TaskInputProps {
 
 const TaskInput = ({ onAdd }: TaskInputProps) => {
   const [text, setText] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,6 +24,7 @@ const TaskInput = ({ onAdd }: TaskInputProps) => {
   return (
     <form onSubmit={handleSubmit} className='flex items-center gap-2 mb-4'>
       <input
+        ref={inputRef}
         type='text'
         value={text}
         onChange={(e) => setText(e.target.value)}
