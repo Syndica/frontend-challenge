@@ -23,14 +23,17 @@ const TaskInput = ({ onAdd }: TaskInputProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className='flex items-center gap-2 mb-4'>
+    <form
+      onSubmit={handleSubmit}
+      className='flex items-center gap-2 mb-4 border-b border-b-gray-400 border-dashed pb-4'
+    >
       <input
         ref={inputRef}
         type='text'
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder='Add a task...'
-        className='flex-1 px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500'
+        className='flex-1 px-3 py-2 border border-gray-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500'
       />
       <button
         type='submit'

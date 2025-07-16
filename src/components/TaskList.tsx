@@ -24,7 +24,7 @@ const TaskList = ({ tasks, onToggle, onRemove }: TaskListProps) => {
               '--index': `${index < taskCountOnLoadRef.current ? index : 0}`,
             } as React.CSSProperties
           }
-          className='animate-in flex justify-between items-center gap-2 p-2 border rounded shadow-sm bg-white hover:bg-gray-50 transition'
+          className='animate-in flex justify-between items-center gap-2 p-2 border border-gray-300 rounded  bg-white hover:bg-gray-50 transition'
         >
           <label
             htmlFor={task.id}
