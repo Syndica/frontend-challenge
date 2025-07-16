@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 interface TaskInputProps {
   onAdd: (text: string) => void;
@@ -18,6 +18,7 @@ const TaskInput = ({ onAdd }: TaskInputProps) => {
     if (trimmed) {
       onAdd(trimmed);
       setText('');
+      if (inputRef.current) inputRef.current.focus();
     }
   };
 
