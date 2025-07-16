@@ -18,19 +18,21 @@ const TaskList = ({ tasks, onToggle, onRemove }: TaskListProps) => {
           key={task.id}
           className='flex justify-between items-center gap-2 p-2 border rounded shadow-sm bg-white hover:bg-gray-50 transition'
         >
-          <div>
+          <label
+            htmlFor={task.id}
+            className={`${
+              task.completed && 'line-through text-gray-400'
+            } flex-grow cursor-pointer`}
+          >
             <input
               type='checkbox'
               checked={task.completed}
               onChange={() => onToggle(task.id)}
+              id={task.id}
               className='accent-indigo-600 mr-2'
             />
-            <span
-              className={task.completed ? 'line-through text-gray-400' : ''}
-            >
-              {task.text}
-            </span>
-          </div>
+            {task.text}
+          </label>
 
           <button
             onClick={() => onRemove(task.id)}
