@@ -5,10 +5,10 @@ interface TaskStatsProps {
 }
 
 const TaskStats = ({ tasks }: TaskStatsProps) => {
-  // no need for state or useEffect!
-  // can't fool me!
   const completed = tasks.filter((t) => t.completed).length;
   const total = tasks.length;
+
+  if (!tasks.length) return null;
 
   return (
     <div className='text-sm text-gray-600'>

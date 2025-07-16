@@ -8,7 +8,7 @@ interface TaskListProps {
 
 const TaskList = ({ tasks, onToggle, onRemove }: TaskListProps) => {
   if (tasks.length === 0) {
-    return <p className='text-gray-500 italic'>No tasks found.</p>;
+    return <p className='text-gray-500 italic mb-3'>No tasks found.</p>;
   }
 
   return (
