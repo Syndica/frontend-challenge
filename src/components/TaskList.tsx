@@ -26,14 +26,16 @@ const TaskList = ({ tasks, onToggle, onDelete }: TaskListProps) => {
               className="accent-indigo-600 mr-2"
             />
             <span
-              className={task.completed ? "line-through text-gray-400" : ""}
+              className={`transition-all duration-200 ${
+                task.completed ? "line-through text-gray-400" : ""
+              }`}
             >
               {task.text}
             </span>
           </div>
 
           <button
-            className="ml-auto px-2 py-1 text-xs text-red-100 bg-red-600 rounded hover:bg-red-600 transition"
+            className="ml-auto px-2 py-1 text-xs text-red-100 bg-red-600 rounded hover:bg-red-600 transition-transform duration-200 hover:scale-105"
             onClick={() => onDelete(task.id)}
           >
             Delete

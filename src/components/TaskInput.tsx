@@ -32,7 +32,8 @@ const TaskInput = ({ onAdd }: TaskInputProps) => {
       />
       <button
         type="submit"
-        className="px-4 py-2 bg-[#007AFF] text-white rounded hover:bg-bg-[#009AFF] transition cursor-pointer"
+        // className="px-4 py-2 bg-[#007AFF] text-white rounded hover:bg-bg-[#009AFF] transition cursor-pointer"
+        className="px-4 py-2 bg-[#007AFF] text-white rounded hover:bg-bg-[#009AFF] cursor-pointer transition-transform duration-200 hover:scale-105"
       >
         Add
       </button>
