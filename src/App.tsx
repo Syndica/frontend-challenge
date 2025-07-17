@@ -2,38 +2,14 @@ import { useEffect } from "react";
 import TaskList from "./components/TaskList";
 import TaskInput from "./components/TaskInput";
 import TaskStats from "./components/TaskStats";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState, AppDispatch } from "./store";
-import {
-  fetchAllTasks,
-  addNewTask,
-  toggleTaskStatus,
-  deleteTask,
-} from "./features/tasks/taskSlice";
+import { useTasks } from "./hooks/useTasks";
 
 const App = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const {
-    items: tasks,
-    loading,
-    error,
-  } = useSelector((state: RootState) => state.tasks);
+  const { tasks, loading, error, fetch, add, toggle, remove } = useTasks();
 
-  useEffect(() => {
-    dispatch(fetchAllTasks());
-  }, [dispatch]);
-
-  const handleAdd = (text: string) => {
-    dispatch(addNewTask(text));
-  };
-
-  const handleToggle = (id: string) => {
-    dispatch(toggleTaskStatus(id));
-  };
-
-  const handleRemove = (id: string) => {
-    dispatch(deleteTask(id));
-  };
+    useEffect(() => {
+    fetch();
+  }, [fetch]);
 
   useEffect(() => {
     const interval = setInterval(() => {}, 3000);
@@ -54,8 +30,8 @@ const App = () => {
         <h1 className="text-2xl font-bold">Syndica Task Manager</h1>
       </div>
 
-      <TaskInput onAdd={handleAdd} />
-      <TaskList tasks={tasks} onToggle={handleToggle} onDelete={handleRemove} />
+      <TaskInput onAdd={add} />
+      <TaskList tasks={tasks} onToggle={toggle} onDelete={remove} />
       <TaskStats tasks={tasks} />
     </main>
   );
