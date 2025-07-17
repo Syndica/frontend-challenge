@@ -1,12 +1,14 @@
 import type { Task } from "../types";
+import Spinner from "./Spinner";
 
 interface TaskListProps {
   tasks: Task[];
   onToggle: (id: string) => void;
   onDelete: (id: string) => void;
+  deleting: string | null
 }
 
-const TaskList = ({ tasks, onToggle, onDelete }: TaskListProps) => {
+const TaskList = ({ tasks, onToggle, onDelete, deleting }: TaskListProps) => {
   if (tasks.length === 0) {
     return <p className="text-gray-500 italic">No tasks found.</p>;
   }
@@ -37,8 +39,9 @@ const TaskList = ({ tasks, onToggle, onDelete }: TaskListProps) => {
           <button
             className="ml-auto px-2 py-1 text-xs text-red-100 bg-red-600 rounded hover:bg-red-600 transition-transform duration-200 hover:scale-105"
             onClick={() => onDelete(task.id)}
+            disabled={deleting === task.id}
           >
-            Delete
+             {deleting === task.id ? <Spinner /> : "Delete"}
           </button>
         </li>
       ))}

@@ -6,7 +6,7 @@ let tasks: Task[] = [
 ];
 
 export const fetchTasks = (): Promise<Task[]> =>
-  new Promise((resolve) => setTimeout(() => resolve([...tasks]), 500));
+  new Promise((resolve) => setTimeout(() => resolve([...tasks]), 3000));
 
 export const addTask = (text: string): Promise<Task> =>
   new Promise((resolve) => {

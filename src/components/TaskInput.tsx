@@ -1,10 +1,12 @@
 import { useState } from "react";
+import Spinner from "./Spinner";
 
 interface TaskInputProps {
   onAdd: (text: string) => void;
+  adding: boolean;
 }
 
-const TaskInput = ({ onAdd }: TaskInputProps) => {
+const TaskInput = ({ onAdd, adding }: TaskInputProps) => {
   const [text, setText] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -32,10 +34,10 @@ const TaskInput = ({ onAdd }: TaskInputProps) => {
       />
       <button
         type="submit"
-        // className="px-4 py-2 bg-[#007AFF] text-white rounded hover:bg-bg-[#009AFF] transition cursor-pointer"
         className="px-4 py-2 bg-[#007AFF] text-white rounded hover:bg-bg-[#009AFF] cursor-pointer transition-transform duration-200 hover:scale-105"
+        disabled={adding}
       >
-        Add
+        {adding ? <Spinner /> : "Add"}
       </button>
     </form>
   );

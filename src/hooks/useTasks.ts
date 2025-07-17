@@ -9,9 +9,11 @@ export function useTasks() {
   const loading = useSelector((state: RootState) => state.tasks.loading);
   const error = useSelector((state: RootState) => state.tasks.error);
 
-    const add = useCallback((text: string) => dispatch(addNewTask(text)), [dispatch]);
+  const add = useCallback((text: string) => dispatch(addNewTask(text)), [dispatch]);
   const toggle = useCallback((id: string) => dispatch(toggleTaskStatus(id)), [dispatch]);
   const remove = useCallback((id: string) => dispatch(deleteTask(id)), [dispatch]);
+  const adding = useSelector((state: RootState) => state.tasks.adding);
+  const deleting = useSelector((state: RootState) => state.tasks.deleting);   
 
   useEffect(() => {
     if (tasks.length === 0) {
@@ -19,5 +21,5 @@ export function useTasks() {
     }
   }, [dispatch, tasks.length]);
 
-  return { tasks, loading, error, add, toggle, remove };
+  return { tasks, loading, error, add, toggle, remove, adding, deleting };
 }

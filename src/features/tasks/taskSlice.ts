@@ -7,12 +7,16 @@ interface TaskState {
   items: Task[];
   loading: boolean;
   error: string | null;
+  adding: boolean;
+  deleting: string | null;
 }
 
 const initialState: TaskState = {
   items: [],
-  loading: false,
+  loading: true,
   error: null,
+  adding: false,
+  deleting: null
 };
 
 export const fetchAllTasks = createAsyncThunk('tasks/fetchAll', fetchTasks);
@@ -38,8 +42,18 @@ const taskSlice = createSlice({
         state.loading = false;
         state.error = 'Failed to load tasks';
       })
+      .addCase(addNewTask.pending, (state) => {
+        state.adding = true;
+      })
       .addCase(addNewTask.fulfilled, (state, action: PayloadAction<Task>) => {
         state.items.push(action.payload);
+        state.adding = false;
+      })
+      .addCase(addNewTask.rejected, (state) => {
+        state.adding = false;
+      })
+      .addCase(deleteTask.pending, (state, action) => {
+        state.deleting = action.meta.arg;
       })
       .addCase(toggleTaskStatus.fulfilled, (state, action: PayloadAction<Task>) => {
         console.log('Toggling task:', action.payload);
@@ -48,7 +62,11 @@ const taskSlice = createSlice({
       })
       .addCase(deleteTask.fulfilled, (state, action: PayloadAction<string>) => {
         state.items = state.items.filter((task) => task.id !== action.payload);
-      });
+        state.deleting = null;
+      })
+      .addCase(deleteTask.rejected, (state) => {
+        state.deleting = null;
+      })
   },
 });
 
