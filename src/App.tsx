@@ -5,11 +5,7 @@ import TaskStats from "./components/TaskStats";
 import { useTasks } from "./hooks/useTasks";
 
 const App = () => {
-  const { tasks, loading, error, fetch, add, toggle, remove } = useTasks();
-
-    useEffect(() => {
-    fetch();
-  }, [fetch]);
+  const { tasks, loading, error, add, toggle, remove } = useTasks();
 
   useEffect(() => {
     const interval = setInterval(() => {}, 3000);

@@ -26,8 +26,8 @@ export const toggleTask = (id: string): Promise<Task> =>
     setTimeout(() => resolve({ ...updatedTask! }), 1000);
   });
 
-export const removeTask = (id: string): Promise<Task[]> =>
+export const removeTask = (id: string): Promise<string> =>
   new Promise((resolve) => {
     tasks = tasks.filter((task) => task.id !== id);
-    setTimeout(() => resolve([...tasks]), 1000);
+    setTimeout(() => resolve(id), 1000);
   });

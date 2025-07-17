@@ -46,8 +46,8 @@ const taskSlice = createSlice({
         const index = state.items.findIndex((t) => t.id === action.payload.id);
         if (index !== -1) state.items[index] = action.payload;
       })
-      .addCase(deleteTask.fulfilled, (state, action: PayloadAction<Task[]>) => {
-        state.items = action.payload;
+      .addCase(deleteTask.fulfilled, (state, action: PayloadAction<string>) => {
+        state.items = state.items.filter((task) => task.id !== action.payload);
       });
   },
 });
