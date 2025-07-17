@@ -6,7 +6,7 @@ let tasks: Task[] = [
 ];
 
 export const fetchTasks = (): Promise<Task[]> =>
-  new Promise((resolve) => setTimeout(() => resolve([...tasks]), 500));
+  new Promise((resolve) => setTimeout(() => resolve([...tasks]), 3000));
 
 export const addTask = (text: string): Promise<Task> =>
   new Promise((resolve) => {
@@ -17,13 +17,17 @@ export const addTask = (text: string): Promise<Task> =>
 
 export const toggleTask = (id: string): Promise<Task> =>
   new Promise((resolve) => {
-    const task = tasks.find((t) => t.id === id);
-    if (task) task.completed = !task.completed;
-    setTimeout(() => resolve({ ...task! }), 1000);
+    const index = tasks.findIndex((t) => t.id === id);
+    const updatedTask = {
+        ...tasks[index],
+        completed: !tasks[index].completed,
+      };
+      tasks[index] = updatedTask;
+    setTimeout(() => resolve({ ...updatedTask! }), 1000);
   });
 
-export const removeTask = (id: string): Promise<Task[]> =>
+export const removeTask = (id: string): Promise<string> =>
   new Promise((resolve) => {
     tasks = tasks.filter((task) => task.id !== id);
-    setTimeout(() => resolve([...tasks]), 1000);
+    setTimeout(() => resolve(id), 1000);
   });

@@ -1,53 +1,37 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import TaskList from "./components/TaskList";
 import TaskInput from "./components/TaskInput";
 import TaskStats from "./components/TaskStats";
-import { fetchTasks, addTask, toggleTask } from "./lib/fakeApi";
+import Spinner from "./components/Spinner";
+import { useTasks } from "./hooks/useTasks";
 import type { Task } from "./types";
 
 const App = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { tasks, loading, error, add, toggle, remove, adding, deleting } =
+    useTasks();
+  const tasksRef = useRef<Task[]>([]);
 
   useEffect(() => {
-    console.log("Fetching data...");
-    fetchTasks()
-      .then((data) => {
-        setTasks(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError("Failed to load tasks");
-        setLoading(false);
-      });
-  });
+    tasksRef.current = tasks;
+  }, [tasks]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log("Task count:", tasks.length);
+      console.log("Task count:", tasksRef.current.length);
     }, 3000);
     return () => clearInterval(interval);
   }, []);
 
-  const handleAdd = async (text: string) => {
-    const newTask = await addTask(text);
-    setTasks([newTask]);
-  };
-
-  const handleRemove = async (id: string) => {
-    console.log("id: ", id);
-  };
-
-  const handleToggle = (id: string) => {
-    toggleTask(id).then((toggledTask) => {
-      setTasks((currentTasks) =>
-        currentTasks.map((t) => (t.id === toggledTask.id ? toggledTask : t)),
-      );
-    });
-  };
-
-  if (loading) return <div className="p-4">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="flex flex-col items-center gap-3">
+          <Spinner className="h-6 w-6 text-indigo-500" />
+          <p className="text-sm text-gray-500">Loading your tasks...</p>
+        </div>
+      </div>
+    );
+  }
   if (error) return <div className="p-4 text-red-600">{error}</div>;
 
   return (
@@ -60,10 +44,17 @@ const App = () => {
         />
         <h1 className="text-2xl font-bold">Syndica Task Manager</h1>
       </div>
-
-      <TaskInput onAdd={handleAdd} />
-      <TaskList tasks={tasks} onToggle={handleToggle} />
-      <TaskStats tasks={tasks} />
+      
+      <div className="space-y-4">
+        <TaskInput onAdd={add} adding={adding} />
+        <TaskList
+          tasks={tasks}
+          onToggle={toggle}
+          onDelete={remove}
+          deleting={deleting}
+        />
+        <TaskStats tasks={tasks} />
+      </div>
     </main>
   );
 };

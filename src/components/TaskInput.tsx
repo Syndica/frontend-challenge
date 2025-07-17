@@ -1,10 +1,12 @@
 import { useState } from "react";
+import Spinner from "./Spinner";
 
 interface TaskInputProps {
   onAdd: (text: string) => void;
+  adding: boolean;
 }
 
-const TaskInput = ({ onAdd }: TaskInputProps) => {
+const TaskInput = ({ onAdd, adding }: TaskInputProps) => {
   const [text, setText] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -17,7 +19,7 @@ const TaskInput = ({ onAdd }: TaskInputProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center gap-2 mb-4">
+    <form onSubmit={handleSubmit} className="flex items-center gap-2">
       <input
         type="text"
         value={text}
@@ -32,9 +34,10 @@ const TaskInput = ({ onAdd }: TaskInputProps) => {
       />
       <button
         type="submit"
-        className="px-4 py-2 bg-[#007AFF] text-white rounded hover:bg-bg-[#009AFF] transition cursor-pointer"
+        className="btn-primary"
+        disabled={adding}
       >
-        Add
+        {adding ? <Spinner /> : "Add"}
       </button>
     </form>
   );
