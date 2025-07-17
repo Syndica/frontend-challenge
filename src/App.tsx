@@ -44,15 +44,17 @@ const App = () => {
         />
         <h1 className="text-2xl font-bold">Syndica Task Manager</h1>
       </div>
-
-      <TaskInput onAdd={add} adding={adding} />
-      <TaskList
-        tasks={tasks}
-        onToggle={toggle}
-        onDelete={remove}
-        deleting={deleting}
-      />
-      <TaskStats tasks={tasks} />
+      
+      <div className="space-y-4">
+        <TaskInput onAdd={add} adding={adding} />
+        <TaskList
+          tasks={tasks}
+          onToggle={toggle}
+          onDelete={remove}
+          deleting={deleting}
+        />
+        <TaskStats tasks={tasks} />
+      </div>
     </main>
   );
 };

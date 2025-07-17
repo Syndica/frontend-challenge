@@ -19,7 +19,7 @@ const TaskInput = ({ onAdd, adding }: TaskInputProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center gap-2 mb-4">
+    <form onSubmit={handleSubmit} className="flex items-center gap-2">
       <input
         type="text"
         value={text}
@@ -34,7 +34,7 @@ const TaskInput = ({ onAdd, adding }: TaskInputProps) => {
       />
       <button
         type="submit"
-        className="px-4 py-2 bg-[#007AFF] text-white rounded hover:bg-bg-[#009AFF] cursor-pointer transition-transform duration-200 hover:scale-105"
+        className="btn-primary"
         disabled={adding}
       >
         {adding ? <Spinner /> : "Add"}

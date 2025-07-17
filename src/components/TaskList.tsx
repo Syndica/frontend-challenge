@@ -14,7 +14,7 @@ const TaskList = ({ tasks, onToggle, onDelete, deleting }: TaskListProps) => {
   }
 
   return (
-    <ul className="space-y-2 mb-4">
+    <ul className="space-y-2">
       {tasks.map((task) => (
         <li
           key={task.id}
@@ -25,11 +25,11 @@ const TaskList = ({ tasks, onToggle, onDelete, deleting }: TaskListProps) => {
               type="checkbox"
               checked={task.completed}
               onChange={() => onToggle(task.id)}
-              className="accent-indigo-600 mr-2"
+              className="accent-indigo-600 mr-2 cursor-pointer"
             />
             <span
               className={`transition-all duration-200 ${
-                task.completed ? "line-through text-gray-400" : ""
+                task.completed ? "line-through text-gray-400 italic" : ""
               }`}
             >
               {task.text}
@@ -37,7 +37,7 @@ const TaskList = ({ tasks, onToggle, onDelete, deleting }: TaskListProps) => {
           </div>
 
           <button
-            className="ml-auto px-2 py-1 text-xs text-red-100 bg-red-600 rounded hover:bg-red-600 transition-transform duration-200 hover:scale-105"
+            className="btn-danger"
             onClick={() => onDelete(task.id)}
             disabled={deleting === task.id}
           >
