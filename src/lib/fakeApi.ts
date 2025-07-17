@@ -17,8 +17,6 @@ export const addTask = (text: string): Promise<Task> =>
 
 export const toggleTask = (id: string): Promise<Task> =>
   new Promise((resolve) => {
-    // const task = tasks.find((t) => t.id === id);
-    // if (task) task.completed = !task.completed;
     const index = tasks.findIndex((t) => t.id === id);
     const updatedTask = {
         ...tasks[index],
