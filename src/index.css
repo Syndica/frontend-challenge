@@ -1,5 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Nixie+One&display=swap');
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .fade-in {
+    animation: fadeIn 0.4s ease-out;
+  }
+
+  .fade-out {
+    animation: fadeOut 0.4s ease-in forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+}
 
 body {
     color: #444;
+    background-color: #e6f0ff;
+}
+
+.nixie-one-regular {
+    font-family: "Nixie One", system-ui;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+#container {
+    width: 80%;
+    padding: 1em;
+    margin: 0 auto;
+    margin-top: 1em;
+    box-shadow: 0 0 15px grey;
+    
+    background: white;
+    border-radius: 5px;
+    min-width: 270px;
+    max-height: 550px;
+    overflow-y: auto;
 }
