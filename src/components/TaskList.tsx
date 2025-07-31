@@ -16,7 +16,7 @@ const TaskList = ({ tasks, onToggle, onDelete }: TaskListProps) => {
       {tasks.map((task) => (
         <li
           key={task.id}
-          className="flex justify-between items-center gap-2 bg-white hover:bg-gray-50 shadow-sm p-2 border border-gray-400 rounded transition"
+          className="flex justify-between items-center gap-2 bg-white hover:bg-gray-50 shadow-sm p-2 border border-gray-300 rounded transition"
         >
           <div>
             <input
@@ -33,7 +33,7 @@ const TaskList = ({ tasks, onToggle, onDelete }: TaskListProps) => {
           </div>
 
           <button
-            className="bg-red-600 hover:bg-red-600 ml-auto px-2 py-1 rounded text-red-100 text-xs transition"
+            className="bg-red-600 hover:bg-red-700 ml-auto px-2 py-1 rounded font-bold text-[10px] text-red-100 transition-colors duration-200 cursor-pointer"
             onClick={() => onDelete(task.id)}
           >
             Delete

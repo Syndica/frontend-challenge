@@ -16,8 +16,10 @@ const TaskStats = ({ tasks }: TaskStatsProps) => {
   const total = tasks.length;
 
   return (
-    <div className="text-gray-600 text-sm">
-      ✅ {completed} of {total} tasks complete
+    <div className="mt-4 text-gray-600 text-sm">
+      <span className="font-medium text-gray-800">{completed}</span> of{" "}
+      <span className="font-medium text-gray-800">{total}</span> tasks complete
+      ✅
     </div>
   );
 };
