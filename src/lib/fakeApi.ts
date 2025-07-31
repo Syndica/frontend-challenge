@@ -1,9 +1,7 @@
+import { mockTasks } from "../mocks/mockTasks";
 import type { Task } from "../types";
 
-let tasks: Task[] = [
-  { id: "1", text: "Fix the bug", completed: false },
-  { id: "2", text: "Deploy to staging", completed: true },
-];
+let tasks = [...mockTasks];
 
 export const fetchTasks = (): Promise<Task[]> =>
   new Promise((resolve) => setTimeout(() => resolve([...tasks]), 500));
