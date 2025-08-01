@@ -1,4 +1,5 @@
 import type { Task } from "../types";
+import TaskItem from "./TaskItem";
 
 interface TaskListProps {
   tasks: Task[];
@@ -14,31 +15,12 @@ const TaskList = ({ tasks, onToggle, onDelete }: TaskListProps) => {
   return (
     <ul className="space-y-2 mb-4">
       {tasks.map((task) => (
-        <li
+        <TaskItem
           key={task.id}
-          className="flex justify-between items-center gap-2 bg-white hover:bg-gray-50 shadow-sm p-2 border border-gray-300 rounded transition"
-        >
-          <div>
-            <input
-              type="checkbox"
-              checked={task.completed}
-              onChange={() => onToggle(task.id)}
-              className="mr-2 accent-indigo-600"
-            />
-            <span
-              className={task.completed ? "line-through text-gray-400" : ""}
-            >
-              {task.text}
-            </span>
-          </div>
-
-          <button
-            className="bg-red-600 hover:bg-red-700 ml-auto px-2 py-1 rounded font-bold text-[10px] text-red-100 transition-colors duration-200 cursor-pointer"
-            onClick={() => onDelete(task.id)}
-          >
-            Delete
-          </button>
-        </li>
+          task={task}
+          onToggle={onToggle}
+          onDelete={onDelete}
+        />
       ))}
     </ul>
   );

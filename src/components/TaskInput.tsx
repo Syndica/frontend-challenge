@@ -18,6 +18,10 @@ const TaskInput = ({ onAdd }: TaskInputProps) => {
 
   return (
     <form onSubmit={handleSubmit} className="flex gap-2 mb-4">
+      {/* a11y label  */}
+      <label htmlFor="taskInput" className="sr-only">
+        Task description
+      </label>
       <input
         type="text"
         value={text}

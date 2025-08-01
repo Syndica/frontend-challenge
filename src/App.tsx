@@ -1,7 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, Suspense, lazy } from "react";
 import TaskList from "./components/TaskList";
 import TaskInput from "./components/TaskInput";
-import TaskStats from "./components/TaskStats";
 import { useTaskList, useAddTask, useToggleTask, useRemoveTask } from "./hooks";
 
 const App = () => {
@@ -9,6 +8,7 @@ const App = () => {
   const handleAdd = useAddTask(setTasks);
   const handleToggle = useToggleTask(tasks, setTasks);
   const handleRemove = useRemoveTask(tasks, setTasks);
+  const TaskStats = lazy(() => import("./components/TaskStats"));
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -34,7 +34,13 @@ const App = () => {
 
       <TaskInput onAdd={handleAdd} />
       <TaskList tasks={tasks} onToggle={handleToggle} onDelete={handleRemove} />
-      <TaskStats tasks={tasks} />
+
+      {/* Code splitting TaskStats since its not essential to the core UI */}
+      <Suspense
+        fallback={<div className="text-gray-400 text-sm">Loading stats...</div>}
+      >
+        <TaskStats tasks={tasks} />
+      </Suspense>
     </main>
   );
 };
