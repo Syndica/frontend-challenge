@@ -1,71 +1,63 @@
-import { useEffect, useState } from "react";
+import { useEffect, Suspense, lazy } from "react";
+import ErrorBoundary from "./components/ErrorBoundary";
 import TaskList from "./components/TaskList";
 import TaskInput from "./components/TaskInput";
-import TaskStats from "./components/TaskStats";
-import { fetchTasks, addTask, toggleTask } from "./lib/fakeApi";
-import type { Task } from "./types";
+import { useTaskList, useAddTask, useToggleTask, useRemoveTask } from "./hooks";
 
 const App = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    console.log("Fetching data...");
-    fetchTasks()
-      .then((data) => {
-        setTasks(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError("Failed to load tasks");
-        setLoading(false);
-      });
-  });
+  const { tasks, setTasks, loading, error } = useTaskList(); // API Hooks
+  const handleAdd = useAddTask(setTasks);
+  const handleToggle = useToggleTask(tasks, setTasks);
+  const handleRemove = useRemoveTask(tasks, setTasks);
+  const TaskStats = lazy(() => import("./components/TaskStats"));
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log("Task count:", tasks.length);
+      const incompleteTasks = tasks.filter((t) => !t.completed).length;
+      console.log("Task count:", incompleteTasks);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
-
-  const handleAdd = async (text: string) => {
-    const newTask = await addTask(text);
-    setTasks([newTask]);
-  };
-
-  const handleRemove = async (id: string) => {
-    console.log("id: ", id);
-  };
-
-  const handleToggle = (id: string) => {
-    toggleTask(id).then((toggledTask) => {
-      setTasks((currentTasks) =>
-        currentTasks.map((t) => (t.id === toggledTask.id ? toggledTask : t)),
-      );
-    });
-  };
+  }, [tasks]); // Issue 2
 
   if (loading) return <div className="p-4">Loading...</div>;
   if (error) return <div className="p-4 text-red-600">{error}</div>;
 
   return (
-    <main className="max-w-xl mx-auto p-6 bg-gray-50 min-h-screen">
-      <div className="flex gap-4 items-center mb-8">
-        <img
-          src="../public/mark.svg"
-          alt="Syndica Logo"
-          className="w-8 h-auto"
-        />
-        <h1 className="text-2xl font-bold">Syndica Task Manager</h1>
-      </div>
+    <ErrorBoundary>
+      <main className="bg-gray-50 mx-auto p-6 max-w-xl min-h-screen">
+        <div className="flex items-center gap-4 mb-8">
+          <img
+            src="../public/mark.svg"
+            alt="Syndica Logo"
+            className="w-8 h-auto"
+          />
+          <h1 className="font-bold text-2xl">Syndica Task Manager</h1>
+        </div>
 
-      <TaskInput onAdd={handleAdd} />
-      <TaskList tasks={tasks} onToggle={handleToggle} />
-      <TaskStats tasks={tasks} />
-    </main>
+        <TaskInput onAdd={handleAdd} />
+        <TaskList
+          tasks={tasks}
+          onToggle={handleToggle}
+          onDelete={handleRemove}
+        />
+
+        {/* Code splitting TaskStats since its not essential to the core UI */}
+        <Suspense
+          fallback={
+            <div className="text-gray-400 text-sm">Loading stats...</div>
+          }
+        >
+          <TaskStats tasks={tasks} />
+        </Suspense>
+      </main>
+    </ErrorBoundary>
   );
 };
 
 export default App;
+
+// Infinite re-fetch loop: fetchTasks should only run once on initial load.
+// Stale logs: task count in the logs never updates.
+// Broken task stats: completed task count may appear incorrect after toggling.
+// UI jank: network latency causing inconsistent and buggy ux.
+// Implement remove task: implement remove task functionality

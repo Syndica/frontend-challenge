@@ -11,13 +11,15 @@ const TaskStats = ({ tasks }: TaskStatsProps) => {
   useEffect(() => {
     const count = tasks.filter((t) => t.completed).length;
     setCompleted(count);
-  }, []);
+  }, [tasks]); // Issue 3
 
   const total = tasks.length;
 
   return (
-    <div className="text-sm text-gray-600">
-      ✅ {completed} of {total} tasks complete
+    <div className="mt-4 text-gray-600 text-sm">
+      <span className="font-medium text-gray-800">{completed}</span> of{" "}
+      <span className="font-medium text-gray-800">{total}</span> tasks complete
+      ✅
     </div>
   );
 };
