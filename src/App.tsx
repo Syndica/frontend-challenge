@@ -1,4 +1,5 @@
 import { useEffect, Suspense, lazy } from "react";
+import ErrorBoundary from "./components/ErrorBoundary";
 import TaskList from "./components/TaskList";
 import TaskInput from "./components/TaskInput";
 import { useTaskList, useAddTask, useToggleTask, useRemoveTask } from "./hooks";
@@ -22,26 +23,34 @@ const App = () => {
   if (error) return <div className="p-4 text-red-600">{error}</div>;
 
   return (
-    <main className="bg-gray-50 mx-auto p-6 max-w-xl min-h-screen">
-      <div className="flex items-center gap-4 mb-8">
-        <img
-          src="../public/mark.svg"
-          alt="Syndica Logo"
-          className="w-8 h-auto"
+    <ErrorBoundary>
+      <main className="bg-gray-50 mx-auto p-6 max-w-xl min-h-screen">
+        <div className="flex items-center gap-4 mb-8">
+          <img
+            src="../public/mark.svg"
+            alt="Syndica Logo"
+            className="w-8 h-auto"
+          />
+          <h1 className="font-bold text-2xl">Syndica Task Manager</h1>
+        </div>
+
+        <TaskInput onAdd={handleAdd} />
+        <TaskList
+          tasks={tasks}
+          onToggle={handleToggle}
+          onDelete={handleRemove}
         />
-        <h1 className="font-bold text-2xl">Syndica Task Manager</h1>
-      </div>
 
-      <TaskInput onAdd={handleAdd} />
-      <TaskList tasks={tasks} onToggle={handleToggle} onDelete={handleRemove} />
-
-      {/* Code splitting TaskStats since its not essential to the core UI */}
-      <Suspense
-        fallback={<div className="text-gray-400 text-sm">Loading stats...</div>}
-      >
-        <TaskStats tasks={tasks} />
-      </Suspense>
-    </main>
+        {/* Code splitting TaskStats since its not essential to the core UI */}
+        <Suspense
+          fallback={
+            <div className="text-gray-400 text-sm">Loading stats...</div>
+          }
+        >
+          <TaskStats tasks={tasks} />
+        </Suspense>
+      </main>
+    </ErrorBoundary>
   );
 };
 
